@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.TeacherMapper">
+    <resultMap id="teacher" type="com.example.demo.entity.Teacher">
+        <result column="tid" property="tid"/>
+        <result column="tname" property="tname"/>
+        <result column="tlvl" property="tlvl"/>
+        <result column="tsex" property="tsex"/>
+        <result column="tage" property="tage"/>
+    </resultMap>
+
+    <select id="selectPageVo" resultType="com.example.demo.entity.Teacher">
+    SELECT tid,tname,tlvl,tsex,tage FROM teacher WHERE tsex=#{tsex}
+</select>
+
+
+    <select id="chooseSelect" parameterType="java.util.HashMap" resultType="com.example.demo.entity.Teacher">
+        select * from teacher
+        <where>
+            <choose>
+                <when test="tid !='' and tid !=null">
+                    tid = #{tid}
+                </when>
+                <when test="tname != null">
+                    and tname= #{tname}
+                </when>
+                <otherwise>
+                    and tage = #{tage}
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+
+</mapper>
