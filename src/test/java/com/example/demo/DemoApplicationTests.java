@@ -16,6 +16,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -34,6 +35,9 @@ class DemoApplicationTests {
 
     @Resource
     private JdbcTemplate jdbcTemplate;
+
+    @Resource
+    private  RedisTemplate redisTemplate;
 
 
 
@@ -192,5 +196,10 @@ class DemoApplicationTests {
 //
 //  }
 
+     @Test
+    public  void redisTest(){
+        redisTemplate.opsForValue().set("key1","233");
+         System.out.println(redisTemplate.opsForValue().get("key1"));
 
+     }
 }
