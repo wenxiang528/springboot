@@ -19,6 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
+import redis.clients.jedis.Jedis;
 
 
 import javax.annotation.Resource;
@@ -196,10 +197,28 @@ class DemoApplicationTests {
 //
 //  }
 
-     @Test
-    public  void redisTest(){
-        redisTemplate.opsForValue().set("key1","233");
-         System.out.println(redisTemplate.opsForValue().get("key1"));
+//     @Test
+//    public  void redisTest(){
+//        redisTemplate.opsForValue().set("key1","233");
+//         System.out.println(redisTemplate.opsForValue().get("key1"));
+//
+//     }
+//
+//
+//     @Test
+//    public  void testJedis(){
+//         Jedis jedis=new Jedis("127.0.0.1",6379);
+//         jedis.set("id","100");
+//         jedis.set("name","Tom");
+//         String id=jedis.get("id");
+//         String name=jedis.get("name");
+//         System.out.println("id="+id+",name="+name);
+//
+//
+//     }
 
-     }
+
+
+
+
 }
