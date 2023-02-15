@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.entity.Teacher;
+import com.example.demo.test.redisUtil.VoteRedis;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -229,6 +230,33 @@ public class RedisTests {
         setOperations.add("setKey1", "A","B","C","C");
         Object members=setOperations.members("setKey1");
         System.out.println("setKeys="+members);
+        System.out.println(setOperations.size("setKey1"));
+
+    }
+
+
+
+    //简易投票系统
+    @Test
+    void testVote(){
+        String activityId="100";
+        String userId1="1";
+        String userId2="2";
+        String userId3="3";
+        //执行投票动作
+        VoteRedis.doVote(activityId, userId1);
+        VoteRedis.doVote(activityId, userId2);
+        VoteRedis.doVote(activityId, userId3);
+//        VoteRedis.doVote(activityId, userId3);
+        //获取投票的总票数
+        Long aLong = VoteRedis.doCount(activityId);
+        System.out.println(aLong);
+        //获取参与投票的成员
+        Set<String> members= VoteRedis.doGetMembers(activityId);
+        System.out.println(members);
+
+
+
     }
 
 }
