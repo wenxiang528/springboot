@@ -236,6 +236,7 @@ public class RedisTests {
         setOperations.add("setKey1", "A","B","C","C");
         Object members=setOperations.members("setKey1");
         System.out.println("setKeys="+members);
+        System.out.println(setOperations.size("setKey1"));
 
     }
 
@@ -270,7 +271,7 @@ public class RedisTests {
 
             }
         }.start();
-        System.out.println(setOperations.size("setKey1"));
+
 
     }
 
