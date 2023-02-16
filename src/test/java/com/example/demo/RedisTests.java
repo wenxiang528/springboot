@@ -1,6 +1,9 @@
 package com.example.demo;
 
 import com.example.demo.entity.Teacher;
+import com.example.demo.service.ITeacherService;
+import com.example.demo.service.RedisService;
+import com.example.demo.test.RedisMethod.KillByRedis;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +32,9 @@ public class RedisTests {
 
     @Resource
     private RedisTemplate redisTemplate;
+
+    @Resource
+    private RedisService redisService;
 
     /*测试是否可以连通redis*/
 
@@ -110,7 +116,7 @@ public class RedisTests {
     }
 
 
-    //RedisTemplate的简单使用
+    /**RedisTemplate的简单使用*/
 
     /*测试是否能够连通redis*/
     @Test
@@ -229,6 +235,40 @@ public class RedisTests {
         setOperations.add("setKey1", "A","B","C","C");
         Object members=setOperations.members("setKey1");
         System.out.println("setKeys="+members);
+
+    }
+
+    //基于Redis实现单点登录
+    @Test
+    void testLoginByRedis() throws InterruptedException {
+     redisService.getToken("jack","123456");
+    }
+
+    //基于Redis的简易秒杀队列
+    @Test
+    void testKillByRedis(){
+        //1.多次抢购(模拟在界面上多次点击操作)
+        new Thread(){
+            @Override
+            public void run() {
+                for(int i=1;i<=10;i++){//模拟页面上按钮点击
+                    KillByRedis.enque(String.valueOf(i));
+                    try{Thread.sleep(1000);}catch(Exception e){}
+                }
+            }
+        }.start();
+
+        //2.从队列取内容(模拟后台从队列取数据)
+        new Thread(){
+            @Override
+            public void run() {
+                    String msg=KillByRedis.deque();
+                    if(msg!=null){
+                        System.out.println(msg);
+                    }
+
+            }
+        }.start();
     }
 
 }
